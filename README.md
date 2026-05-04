@@ -55,4 +55,36 @@ Type `ytm` in the console to access:
 ### Firefox
 *Convert manifest v3 to v2 or use temporary add-on loading*
 
-## File Structure
+
+## Architecture
+
+The extension uses two content scripts:
+
+1. **document_start** - Loads debug, loader, and PWA override before page parsing
+2. **document_idle** - Loads DOM utils, network layer, features after page is ready
+
+### Caching Strategy
+- Playlists - `chrome.storage.local` with 1 hour TTL (persists across restarts)
+- Songs - In-memory Map (tab lifetime only)
+- Suggestions - Never cached, fetched fresh each time
+
+### Dependencies
+The modules follow a dependency chain:
+- `debug.js` → defines `window.ytmLog`
+- `dom.js` → depends on debug, exports `window.ytmDom`
+- `network.js` → depends on debug, exports `window.ytmNet`
+- `palette.js` → depends on dom + network
+
+## Configuration
+
+### Enable Debug Logs
+Open DevTools and run:
+```javascript
+window._ytmDev = true
+  ```
+
+### Cache Management
+```javascript
+ytmPalette.clearCache()  // Clears playlist/song cache from UI
+ytmNet.clearCache()      // Clears from console
+  ```
