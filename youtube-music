@@ -1,0 +1,2 @@
+#!/bin/bash
+exec -a youtube-music /opt/helium/helium-wrapper "--profile-directory=Profile 1" --app-id=mplfkeiboaokohfbilblcbplclpgaabi "$@"

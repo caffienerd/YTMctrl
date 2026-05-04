@@ -1,0 +1,48 @@
+{
+  "manifest_version": 3,
+  "name": "YouTube Music",
+  "version": "2.5",
+  "description": "Custom YouTube Music with theme, hotkeys, palette, and safe performance tweaks",
+  "host_permissions": ["*://music.youtube.com/*"],
+  "permissions": ["storage"],
+  "icons": {
+    "16": "icon/icon16.png",
+    "48": "icon/icon48.png",
+    "128": "icon/icon128.png"
+  },
+  "action": {
+    "default_icon": {
+      "16": "icon/icon16.png",
+      "48": "icon/icon48.png",
+      "128": "icon/icon128.png"
+    },
+    "default_title": "YouTube Music"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["icon/*"],
+      "matches": ["*://music.youtube.com/*"]
+    }
+  ],
+  "content_scripts": [
+    {
+      "matches": ["*://music.youtube.com/*"],
+      "css": ["styles/macchiato.css"],
+      "js": ["src/debug.js", "src/core/loader.js", "src/core/pwa.js"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["*://music.youtube.com/*"],
+      "js": [
+        "src/core/dom.js",
+        "src/core/network.js",
+        "src/core/perf.js",
+        "src/features/player.js",
+        "src/features/hotkey.js",
+        "src/features/palette.js",
+        "src/features/content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}
